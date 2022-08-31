@@ -20,14 +20,10 @@ struct pila_enlazada{
 */
 
 struct estructura_pila{
-	nodo cabeza;
-    nodo penultimo;
-    nodo ultimo;
-    int tipo;
+	nodo tope;
 	int elementos;
+    int tipo;
 };
-
-void mostrar_aux (nodo lista, int tipo); //funcion auxiliar 
 
 nodo crear_nodo( void* elemento ){
 	nodo linkable = ( nodo ) malloc ( sizeof( struct pila_enlazada ) );
@@ -41,11 +37,8 @@ nodo crear_nodo( void* elemento ){
 tipo_pila crear( void ){
 	tipo_pila pila = ( tipo_pila ) malloc ( sizeof( struct estructura_pila ) );
 
-	pila->cabeza = NULL;
-    pila->penultimo = NULL;
-    pila->ultimo = NULL;
+	pila->tope = NULL;
 	pila->elementos = 0;
-    pila->tipo = 0;
 
 	return pila;
 }
@@ -56,59 +49,31 @@ int es_vacia( tipo_pila pila ){
 
 int apilar( tipo_pila pila, void* elemento ){
 
-    //cuando es vacia se realiza insercion a la cabeza
-    if ( es_vacia (pila) ) {
-        nodo linkable = crear_nodo( elemento );
+    nodo linkable = crear_nodo( elemento );
 
-        linkable->siguiente = NULL;
-        pila->cabeza = linkable;
-        pila->ultimo = linkable;
+    linkable->siguiente = pila->tope;
+    pila->tope = linkable;
 
-        pila->elementos = (pila->elementos) + 1;
+    pila->elementos = (pila->elementos) + 1;
 
-        return 0;   
+    return 0;   
         
     }
 
-    //cuando no es vacia, se inserta desde el ultimo elemento
-    nodo linkable = crear_nodo( elemento );
-
-	linkable->siguiente = NULL;
-    pila->ultimo->siguiente = linkable;
-    pila->penultimo = pila->ultimo;
-	pila->ultimo = linkable;
-
-	pila->elementos = (pila->elementos) + 1;
-
-    return 0;
-}
-
 void* tope ( tipo_pila pila){
-    return pila->ultimo->valor;
+    return pila->tope->valor;
 }
 
 void* desapilar ( tipo_pila pila ){
 
-    nodo cursor; 
     nodo aux; //nodo que apuntara al elemento a desapilar
     void* elem_desapilado; //variable que guardara la direccion de memoria del elemento a desapilar
 
-    cursor = pila->cabeza;
-
-    //ciclo para localizar al nuevo penultimo de la pila
-
-    for (int i = 0; pila->elementos - i > 2; i++ ){
-        cursor = cursor->siguiente;
-    }
-
-    aux = pila->ultimo;
-
-    pila->ultimo = pila->penultimo;
-    pila->ultimo->siguiente = NULL;
-
-    pila->penultimo = cursor;
+    aux = pila->tope;
+    pila->tope = pila->tope->siguiente;
 
     elem_desapilado = aux->valor;
+
     //libera la memoria asignada con malloc
     free (aux);
 
@@ -120,16 +85,13 @@ void* desapilar ( tipo_pila pila ){
 
 tipo_pila vaciar ( tipo_pila pila ){
     
-    nodo cursor;
+    nodo aux; //nodo auxiliar para ir apuntando a los nodos de los que se necesita liberar memoria
 
-    for (int i=0; i < pila->elementos; i++){
-        cursor = pila->cabeza;
-        pila->cabeza = pila->cabeza->siguiente;
-        free (cursor);
-    } 
-
-    pila->penultimo = NULL;
-    pila->ultimo = NULL;
+    while (pila->tope != NULL){
+        aux = pila->tope;
+        pila->tope = pila->tope->siguiente;
+        free (aux);
+    }
 
     pila->elementos = 0;
 
@@ -140,19 +102,23 @@ int elementos ( tipo_pila pila ){
     return pila->elementos;
 }
 
+
+
 /* para imprimir los elementos desde el ultimo hasta el primero, debo imprimir con recursion en aumento*/
 void mostrar (tipo_pila pila){
 
     if (pila->tipo == 0){
         printf( "La pila es \n" );
-        mostrar_aux (pila->cabeza, pila->tipo);
+        mostrar_aux (pila->tope, pila->tipo);
         printf( "\n" );
     }else{
         printf( "La pila es \n" );
-        mostrar_aux (pila->cabeza, pila->tipo);
+        mostrar_aux (pila->tope, pila->tipo);
     }
 }
 
+
+//funcion auxiliar que se utiliza en mostrar //
 void mostrar_aux (nodo lista, int tipo){
     if (tipo == 0){
         if (lista != NULL){
@@ -163,7 +129,7 @@ void mostrar_aux (nodo lista, int tipo){
         if (lista != NULL){
                 mostrar_aux (lista->siguiente, tipo);
                 printf( "%c\n", *(char *)(lista->valor) ); 
-            }
+        }
     }
 }
 
@@ -174,3 +140,4 @@ tipo_pila cambiar_tipo (tipo_pila pila){
         pila->tipo = 0;
     }
 }
+
