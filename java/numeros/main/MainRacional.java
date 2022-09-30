@@ -16,24 +16,13 @@ public class MainRacional{
 	* @param args : arguments for this main method, not used in this implementation.
 	*/
 	public static void main(String[] args) {
-		Racional miRacional = new Racional (6, 8);
+		Racional miRacional = new Racional (3, 4);
 		Racional otroRacional = new Racional (1, 2);
-		System.out.println(miRacional);
-		System.out.println(otroRacional);
-		miRacional.suma(otroRacional);
-		System.out.println(miRacional);
-		miRacional.resta(otroRacional);
-		System.out.println(miRacional);
-		Racional nuevo = new Racional (3, 4);
-		System.out.println("12/16 es igual a 3/4??" + miRacional.equals(nuevo));
-		miRacional.multiplicar(nuevo);
-		System.out.println(miRacional);
-		nuevo.dividir(otroRacional);
-		System.out.println(nuevo);
-		nuevo.inversoAditivo();
-		System.out.println(nuevo);
-		nuevo.inversoMultiplicativo();
-		System.out.println(nuevo);
-
+		System.out.println ("El resultado de sumar " + miRacional + " y " + otroRacional + " es: " + miRacional.suma(otroRacional));
+		System.out.println ("El resultado de restar " + miRacional + " y " + otroRacional + " es: " + miRacional.resta(otroRacional));
+		System.out.println ("El resultado de multiplicar " + miRacional + " y " + otroRacional + " es: " + miRacional.multiplicar(otroRacional));
+		System.out.println ("El resultado de dividir " + miRacional + " y " + otroRacional + " es: " + miRacional.dividir(otroRacional));
+		System.out.println ("El inverso aditivo de " + miRacional + " es: " + miRacional.inversoAditivo());
+		System.out.println ("El inverso multiplicativo de " + miRacional + " es:" + miRacional.inversoMultiplicativo());
 	}
 }

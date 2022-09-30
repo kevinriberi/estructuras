@@ -1,4 +1,4 @@
-package colecciones.cola;
+package cola;
 
 import java.util.Collection;
 
@@ -18,7 +18,7 @@ public class ColaArregloFijo<T> implements Cola<T> {
 	/**
 	* Construye una nueva cola vacía con una capacidad máxima de {@value #CAPACIDAD_POR_DEFECTO}.
 	*/
-	public ColaArregloFijo() {
+	public <T>ColaArregloFijo() {
 		this(CAPACIDAD_POR_DEFECTO);
 	}
 
@@ -48,49 +48,119 @@ public class ColaArregloFijo<T> implements Cola<T> {
 		}
 	}
 
+	/**
+	* Permite evaluar si la cola no tiene elementos.
+	* @return {@code true} sii la cola no tiene elementos
+	*/
 	@Override
 	public boolean esVacia() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");	
+		return elementos == 0;	
 	}
 
 	@Override
 	public int elementos() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");
+		return elementos;
 	}
 
+	/**
+	* Encola un elemento en el comienzo de la cola.
+	* @param elem el elemento a encolar
+	* @return {@code true} sii el elemento pudo ser encolado
+	*/
 	@Override
 	public boolean encolar(T elem) {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");		
+		if (elementos == this.arreglo.length){
+			//returno una expecion o false?
+			//throw new IllegalStateException ("La cola esta llena. No se pueden encolar elementos");
+			return false;
+		}
+
+		arreglo[elementos++] = elem;	
+
+		return true;
 	}
 
+	/**
+	* Desencola el primer elemento de la cola, y retorna el elemento desencolado, si ésta no es vacía.
+	* @return el primer elemento de la cola
+	* @throws IllegalStateException si la cola está vacía
+	* @see #esVacia()
+	*/
 	@Override
 	public T desencolar() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");
+		if (this.esVacia())
+			throw new IllegalStateException ("La cola esta vacia. No se puede desencolar");
+
+		T elem_desapilado = this.elemento(0);
+
+		for (int i = 0; i < (elementos-1); i++)
+			arreglo[i] = arreglo[i+1];
+
+		//decremento en 1 la cantidad de elementos
+		elementos--;
+
+		return elem_desapilado;
 	}
 
+	/**
+	* Retorna el primero de la cola, si ésta no es vacía.
+	* @return primer elemento de la cola
+	* @throws IllegalStateException si la cola está vacía
+	* @see #esVacia()
+	*/
 	@Override
 	public T primero() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");	
+		if (this.esVacia())
+			throw new IllegalStateException ("La pila esta vacia. Es imposible mostrar el primer elemento");
+
+		return this.elemento(0);
 	}
 
+	/**
+	* Remueve todos los elementos en la cola.
+	*/
 	@Override
 	public void vaciar() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");	
+		elementos = 0;	
 	}
 
 	@Override
 	public boolean repOK() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");	
+		return true;	
 	}
 
 	@Override
 	public String toString() {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");	
+		if (this.esVacia())
+			return "[]";
+
+		String resultado = "[";
+
+		for (int i = 0; i < (elementos-1); i++)
+			resultado += arreglo[i] + ", ";
+
+		resultado += arreglo[elementos-1] + "]";
+		return resultado;
 	}
 
 	@Override
 	public boolean equals(Object other) {
-		throw new UnsupportedOperationException("Implementar y eliminar esta sentencia");	
+		if (other == null)
+			return false;
+		if (other == this)
+			return true;
+		if (!(other instanceof Cola))
+			return false;
+		Cola otraCola = (Cola) other;
+		if (otraCola.elementos() != this.elementos)
+			return false;
+		for (int i = 0; i < this.elementos; i++){
+			if (!(this.elemento(i).equals(otraCola.primero())))
+				return false;
+			otraCola.desencolar();
+		}
+
+		return true;	
 	}
 
 	/**

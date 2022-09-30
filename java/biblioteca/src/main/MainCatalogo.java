@@ -22,7 +22,7 @@ public class MainCatalogo {
 		Libro libro3 = new Libro("Gabriel García Marquez", "100 años de soledad", 496);
 		Libro libro4 = new Libro("Yuval Noah Harari", "Sapiens: De Animales a Dioses", 496);
 		Libro libro5 = new Libro("George Orwell", "1984", 352);
-		Catalogo catalogo = new Catalogo(10);
+		Catalogo catalogo = new Catalogo();
 		catalogo.agregarLibro(libro1);
 		catalogo.agregarLibro(libro2);
 		catalogo.agregarLibro(libro3);
@@ -33,6 +33,8 @@ public class MainCatalogo {
 
 
 		Libro libroEncontrado = catalogo.buscarPorTitulo(libro1.titulo());
+		System.out.println(libroEncontrado);
+		libroEncontrado = catalogo.buscarPorTitulo("El principito");
 		System.out.println(libroEncontrado);
 	} 
 

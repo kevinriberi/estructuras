@@ -39,85 +39,112 @@ public class Racional {
 	 * Suma un numero {@code Racional} a otro número {@code Racional}.
 	 * @param sumando : el número Racional a sumar
 	 */
-	 public void suma ( Racional sumando){
+	 public Racional suma ( Racional sumando){
+	 	Racional resultado = new Racional (1,1);
+
+
 	 	//a*d + b*c, siendo a/b this, y c/d el sumando
-	 	this.numerador = (this.numerador*sumando.denominador + this.denominador*sumando.numerador);
+	 	resultado.numerador = (this.numerador*sumando.denominador + this.denominador*sumando.numerador);
 	 	//b*d, siendo a/b this, y c/d el sumando
-	 	this.denominador = this.denominador*sumando.denominador;
-	 	this.simplificar();
+	 	resultado.denominador = this.denominador*sumando.denominador;
+
+	 	resultado.simplificar();
+
+	 	return resultado;
 	 }
 
 	 /**
 	 * Resta un numero {@code Racional} a otro número {@code Racional}.
 	 * @param restando : el número Racional a sumar
 	 */
-	 public void resta ( Racional restando){
+	 public Racional resta ( Racional restando){
+	 	Racional resultado = new Racional (1,1);
+
+
 	 	//a*d + b*c, siendo a/b this, y c/d el restando
-	 	this.numerador = (this.numerador*restando.denominador - this.denominador*restando.numerador);
+	 	resultado.numerador = (this.numerador*restando.denominador - this.denominador*restando.numerador);
 	 	//b*d, siendo a/b this, y c/d el restando
-	 	this.denominador = this.denominador*restando.denominador;
-	 	this.simplificar();
+	 	resultado.denominador = this.denominador*restando.denominador;
+	 	resultado.simplificar();
+
+	 	return resultado;
 	 }
 
 	 /**
 	 * Multiplica un numero {@code Racional} a otro número {@code Racional}.
 	 * @param multiplicando : el número Racional que multiplica a this
 	 */
-	 public void multiplicar ( Racional multiplicando){
+	 public Racional multiplicar ( Racional multiplicando){
+	 	Racional resultado = new Racional (1,1);
+
+
 	 	//a*c, siendo a/b this, y c/d el multiplicando
-	 	this.numerador = (this.numerador * multiplicando.numerador);
+	 	resultado.numerador = (this.numerador * multiplicando.numerador);
 	 	//b*d, siendo a/b this, y c/d el multiplicando
-	 	this.denominador = (this.denominador * multiplicando.denominador);
-	 	this.simplificar();
+	 	resultado.denominador = (this.denominador * multiplicando.denominador);
+	 	resultado.simplificar();
+
+	 	return resultado;
 	 }
 
 	 /**
 	 * Divide un numero {@code Racional} a otro número {@code Racional}.
 	 * @param dividendo : el número Racional que divide a this
 	 */
-	 public void dividir ( Racional divisor){
+	 public Racional dividir ( Racional divisor){
+	 	Racional resultado = new Racional (1,1);
+
+
 	 	//a*d, siendo a/b this, y c/d el divisor
-	 	this.numerador = (this.numerador * divisor.denominador);
+	 	resultado.numerador = (this.numerador * divisor.denominador);
 	 	//b*c, siendo a/b this, y c/d el divisor
-	 	this.denominador = (this.denominador * divisor.numerador);
-	 	this.simplificar();
+	 	resultado.denominador = (this.denominador * divisor.numerador);
+	 	resultado.simplificar();
+
+	 	return resultado;
 	 }
 
 	 /**
 	 * Devuelve el inverso aditivo de un número {@code Racional}
 	 * Esta accion no recibe parámetros
 	 */
-	 public void inversoAditivo (){
-	 	this.numerador *= -1;
+	 public Racional inversoAditivo (){
+	 	Racional resultado = new Racional (1,1);
+
+	 	resultado.numerador = (-1)*this.numerador;
+	 	resultado.denominador = this.denominador;
+
+	 	return resultado;
 	 }
 
 	 /**
 	 * Devuelve el inverso multiplicativo de un número {@code Racional}
 	 * Esta accion no recibe parámetros
 	 */
-	 public void inversoMultiplicativo (){
+	 public Racional inversoMultiplicativo (){
+	 	Racional resultado = new Racional (1,1);
+
 	 	if (this.numerador == 0){
 	 		throw new ArithmeticException ( "El 0 no tiene definido su inverso multiplicativo");
 	 	}
 
-	 	//variable local para almacenar el valor del numerador
-	 	long temp = this.numerador;
-
 	 	//tengo en cuenta si el numerador es negativo, para mantener el signo dps del cambio
 	 	if (this.numerador > 0 ){
-	 		this.numerador = this.denominador;
-	 		this.denominador = temp;
+	 		resultado.numerador = this.denominador;
+	 		resultado.denominador = this.numerador;
 	 	}else{
-	 		this.numerador = (-1)*this.denominador;
-	 		this.denominador = (-1)*temp;
+	 		resultado.numerador = (-1)*this.denominador;
+	 		resultado.denominador = (-1)*this.numerador;
 	 	}
+
+	 	return resultado;
 	 }
 
 	 /**
 	  * Simplifica el numerador y denominador de un {@code Racional} con el maximo comun divisor de ambos
 	  * Esta accion no toma parámetros
 	  */
-	 public void simplificar(){
+	 private void simplificar(){
 	 	//busca el maximo comun divisor de this.numerador y  this.denominador
 	 	long x, y;
 	 	x = this.numerador;

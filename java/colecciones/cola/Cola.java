@@ -1,4 +1,4 @@
-package colecciones.cola;
+package cola;
 
 
 /**

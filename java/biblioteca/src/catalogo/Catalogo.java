@@ -22,7 +22,7 @@ public class Catalogo {
 	/**
 	* La capacidad por defecto de un nuevo Catalogo.
 	*/
-	public static final int CAPACIDAD_POR_DEFECTO = 50;
+	public static final int CAPACIDAD_POR_DEFECTO = 3;
 
 	//el arreglo interno de libros.
 	private Libro[] libros;
